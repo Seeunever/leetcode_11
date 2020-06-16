@@ -305,5 +305,39 @@ iterable -- 一个或多个序列
 class Solution:
     def addBinary(self, a: str, b: str) -> str:
         return bin(int(a, 2) + int(b, 2))[2:]
-
 ```
+
+---
+
+## 17
+
+x 的平方根
+
+实现 int sqrt(int x) 函数。
+
+计算并返回 x 的平方根，其中 x 是非负整数。
+
+由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。
+
+示例 1:
+
+输入: 4
+输出: 2
+
+示例 2:
+
+输入: 8
+输出: 2
+说明: 8 的平方根是 2.82842..., 
+     由于返回类型是整数，小数部分将被舍去。
+
+```python
+class Solution:
+    def mySqrt(self, x: int) -> int:
+        for i in range(1,10000000000):
+            if x == 0:
+                return 0
+            elif i*i <= x and (i+1)*(i+1) > x:
+                return i
+```
+
