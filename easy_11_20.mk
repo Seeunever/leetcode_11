@@ -328,7 +328,7 @@ x 的平方根
 
 输入: 8
 输出: 2
-说明: 8 的平方根是 2.82842..., 
+说明: 8 的平方根是 2.82842...,
      由于返回类型是整数，小数部分将被舍去。
 
 ```python
@@ -340,4 +340,146 @@ class Solution:
             elif i*i <= x and (i+1)*(i+1) > x:
                 return i
 ```
+---
 
+## 18
+
+爬楼梯
+
+假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+
+**每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？**
+
+注意：给定 n 是一个正整数。
+
+示例 1：
+
+输入： 2
+输出： 2
+解释： 有两种方法可以爬到楼顶。
+
+1. 1 阶 + 1 阶
+2. 2 阶
+
+示例 2：
+
+输入： 3
+输出： 3
+解释： 有三种方法可以爬到楼顶。
+
+1. 1 阶 + 1 阶 + 1 阶
+2. 1 阶 + 2 阶
+3. 2 阶 + 1 阶
+
+* 低效递归
+
+```python
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        a = Solution()
+        if n == 1:
+            return 1
+        elif n == 2:
+            return 2 
+        else:
+            return a.climbStairs(n-1) + a.climbStairs(n-2)
+```
+
+* 手动发现规律
+
+* 进化
+
+```python
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        resf = 1
+        resb = 2
+        res = 0
+        #可以不适用if判断，最后输出max(res,n)
+        if n == 1:
+            return 1
+        elif n == 2:
+            return 2
+        for i in range(n-2):
+            res = resb + resf
+            resb, resf = res, resb
+        return res
+```
+
+* for i in range(n-2):
+    res = resb + resf
+    resb, resf = res, resb
+
+3递归一次
+
+---
+
+## 19
+
+删除排序链表中的重复元素
+
+给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
+
+示例 1:
+
+输入: 1->1->2
+输出: 1->2
+
+示例 2:
+
+输入: 1->1->2->3->3
+输出: 1->2->3
+
+```python
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        node=head #头节点
+        while node and node.next:
+            if node.val==node.next.val:
+                node.next=node.next.next #指向下一个
+            else:
+                node=node.next
+        return head
+
+```
+
+* 暴力美学暴力美学，这个看着好舒服
+
+---
+
+## 20
+
+合并两个有序数组
+
+给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
+
+说明:
+    初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。
+    你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+示例:
+
+输入:
+nums1 = [1,2,3,0,0,0], m = 3
+nums2 = [2,5,6],       n = 3
+
+输出: [1,2,2,3,5,6]
+
+```python
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        i, j = 0, 0
+        while j < n:
+            if i >= m+j: #结束条件
+                nums1[i:i+n-j] = nums2[j:n]
+                break
+            if nums1[i] < nums2[j]:
+                i += 1
+            else:
+                nums1[i], nums1[i+1:] = nums2[j], nums1[i:len(nums1)-1]
+                j += 1; i += 1
+```
+
+* 归并排序，指针插入，判断并动态改变数组1
